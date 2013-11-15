@@ -29,7 +29,8 @@ openFrameworks 008
 
 Known issues
 ------------
-none
+
+ofeasycam must be define start lunch
 
 Version history
 ------------

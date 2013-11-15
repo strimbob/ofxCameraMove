@@ -121,7 +121,6 @@ void ofxCameraMove::update(){
 //--------------------------------------------------------------
 void ofxCameraMove::keyPressed(ofKeyEventArgs &args) {
 
-    cout << "listion " << " " << args.key << endl;
     ofxXmlSettings XML;
     
     if(args.key =='1'){
@@ -146,6 +145,7 @@ void ofxCameraMove::keyPressed(ofKeyEventArgs &args) {
             XML.setValue("camera:getGlobalPositionY",  cam->getGlobalPosition().y);
             XML.setValue("camera:getGlobalPositionZ",  cam->getGlobalPosition().z);
             XML.saveFile("xml/camera1.xml");
+            cout << "saved to xml/camera1.xml" << endl;
         }
     
     if(args.key =='2'){
@@ -170,6 +170,7 @@ void ofxCameraMove::keyPressed(ofKeyEventArgs &args) {
         XML.setValue("camera:getGlobalPositionY",  cam->getGlobalPosition().y);
         XML.setValue("camera:getGlobalPositionZ",  cam->getGlobalPosition().z);
         XML.saveFile("xml/camera2.xml");
+        cout << "saved to xml/camera2.xml" << endl;
     }
     
     
@@ -195,6 +196,7 @@ void ofxCameraMove::keyPressed(ofKeyEventArgs &args) {
         XML.setValue("camera:getGlobalPositionY",  cam->getGlobalPosition().y);
         XML.setValue("camera:getGlobalPositionZ",  cam->getGlobalPosition().z);
         XML.saveFile("xml/camera3.xml");
+        cout << "saved to xml/camera3.xml" << endl
     }
     
 }
