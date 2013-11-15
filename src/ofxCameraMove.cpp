@@ -196,7 +196,7 @@ void ofxCameraMove::keyPressed(ofKeyEventArgs &args) {
         XML.setValue("camera:getGlobalPositionY",  cam->getGlobalPosition().y);
         XML.setValue("camera:getGlobalPositionZ",  cam->getGlobalPosition().z);
         XML.saveFile("xml/camera3.xml");
-        cout << "saved to xml/camera3.xml" << endl
+        cout << "saved to xml/camera3.xml" << endl;
     }
     
 }
