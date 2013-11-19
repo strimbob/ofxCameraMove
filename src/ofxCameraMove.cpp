@@ -16,25 +16,29 @@ ofAddListener(ofEvents().keyPressed, this, &ofxCameraMove::keyPressed);
 }
 
 //--------------------------------------------------------------
-vector<string> ofxCameraMove::loadString(string path){
+vector<string> ofxCameraMove::loadString(string folder){
     
     vector<string> stringTemp;
     ofDirectory dir;
-    dir.listDir(path);
+    dir.listDir(folder);
     dir.sort();
     
     for(int i = 0; i < (int)dir.size(); i++){
         stringTemp.push_back(dir.getPath(i));
-        
+        cout << " loading " << dir.getPath(i) << endl;
     }
     
     return stringTemp;
     
 }
 //--------------------------------------------------------------
-void  ofxCameraMove::getNumberOfCamFormXML(){
+void  ofxCameraMove::getNumberOfCamFormXML(string folder){
     
-    vector<string> xmlPath = loadString("xml");
+    
+    ofDirectory checkDir;
+    checkDir.isDirectoryEmpty(folder);
+    
+    vector<string> xmlPath = loadString(folder);
 
     for(int a = 0;a< xmlPath.size();a++){
         ofQuaternion startQuat;
@@ -64,9 +68,9 @@ void  ofxCameraMove::getNumberOfCamFormXML(){
 }
 
 //--------------------------------------------------------------
-void ofxCameraMove::setup(ofEasyCam *_cam) {
+void ofxCameraMove::setup(ofEasyCam *_cam,string folder) {
     cam = _cam;    
-    getNumberOfCamFormXML();
+    getNumberOfCamFormXML(folder);
 
 }
 
@@ -92,8 +96,14 @@ void ofxCameraMove::tweenNow(int cameraNumber,float time) {
     targetQuat.makeRotate(angleEnd, x,y,z);
     start = 0;
     end = 1;
+    if(tweenType == 0){
     Tweener.addTween(start, end, time,&ofxTransitions::easeOutExpo);
-    
+    }
+    if(tweenType == 1){
+      Tweener.addTween(start, end, time,&ofxTransitions::easeInOutExpo);
+        
+    }
+
 }
 //--------------------------------------------------------------
 void ofxCameraMove::cutNow(int cameraNumber){
@@ -198,6 +208,11 @@ void ofxCameraMove::keyPressed(ofKeyEventArgs &args) {
         XML.saveFile("xml/camera3.xml");
         cout << "saved to xml/camera3.xml" << endl;
     }
+    
+}
+void ofxCameraMove::setTweenType(int _tweenType){
+    tweenType = _tweenType;
+    
     
 }
 

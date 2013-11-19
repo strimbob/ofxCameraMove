@@ -22,16 +22,19 @@ class ofxCameraMove {
 public:
     ofxCameraMove();
     ~ofxCameraMove();
-	void setup(ofEasyCam *_cam);
+	void setup(ofEasyCam *_cam,string folder);
     void update();    
     void tweenNow(int cameraNumber,float time);
     void cutNow(int cameraNumber);
-    void getNumberOfCamFormXML();
+    void getNumberOfCamFormXML(string folder);
     void keyPressed(ofKeyEventArgs &args);
+    void setTweenType(int _tweenType); // not good how to change???
     vector<string> loadString(string path);
     float start;
     float end;
+    float pre;
 private:
+    int tweenType;
     ofEasyCam camArray[numberSaveFiles];
     vector<ofEasyCam *> target;
 	ofEasyCam *cam;
@@ -41,6 +44,6 @@ private:
     ofQuaternion whater;
     ofQuaternion targetQu;
     ofVec3f targetPos;
-    float pre;
+
 };
 
