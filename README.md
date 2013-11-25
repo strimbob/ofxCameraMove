@@ -35,6 +35,11 @@ ofeasycam must be define start lunch
 
 Version history
 ------------
+v_0_0_3
+added enableSave and disableSave
+change to 6 cameras
+
+
 v_0_0_2
 added string folder to setup
 added check dir on startUp
