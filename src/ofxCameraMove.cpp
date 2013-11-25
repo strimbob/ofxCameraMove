@@ -10,27 +10,19 @@
 
 //--------------------------------------------------------------
 ofxCameraMove::ofxCameraMove(){
-    
-ofAddListener(ofEvents().keyPressed, this, &ofxCameraMove::keyPressed);
+    active = false;
+    enableSave();
     
 }
 
 //--------------------------------------------------------------
-vector<string> ofxCameraMove::loadString(string folder){
-    
-    vector<string> stringTemp;
-    ofDirectory dir;
-    dir.listDir(folder);
-    dir.sort();
-    
-    for(int i = 0; i < (int)dir.size(); i++){
-        stringTemp.push_back(dir.getPath(i));
-        cout << " loading " << dir.getPath(i) << endl;
-    }
-    
-    return stringTemp;
+void ofxCameraMove::setup(ofEasyCam *_cam,string folder) {
+    cam = _cam;
+    getNumberOfCamFormXML(folder);
     
 }
+
+
 //--------------------------------------------------------------
 void  ofxCameraMove::getNumberOfCamFormXML(string folder){
     
@@ -66,12 +58,37 @@ void  ofxCameraMove::getNumberOfCamFormXML(string folder){
             cutNow(0);
     }
 }
+//--------------------------------------------------------------
+vector<string> ofxCameraMove::loadString(string folder){
+    
+    vector<string> stringTemp;
+    ofDirectory dir;
+    dir.listDir(folder);
+    dir.sort();
+    
+    for(int i = 0; i < (int)dir.size(); i++){
+        stringTemp.push_back(dir.getPath(i));
+        cout << " loading " << dir.getPath(i) << endl;
+    }
+    
+    return stringTemp;
+    
+}
 
 //--------------------------------------------------------------
-void ofxCameraMove::setup(ofEasyCam *_cam,string folder) {
-    cam = _cam;    
-    getNumberOfCamFormXML(folder);
-
+void ofxCameraMove::update(){
+    Tweener.update();
+    if(start != pre){
+        float tweenvalue = ofMap (start,0,1,0.,1.,true);
+        ofQuaternion tweenedCameraQuaternion;
+        tweenedCameraQuaternion.slerp(tweenvalue, startQuat, targetQuat);
+        ofVec3f lerpPos;
+        lerpPos = startPos + ((targetPos-startPos) * tweenvalue);
+        cam->setOrientation(tweenedCameraQuaternion);
+        cam->setGlobalPosition(lerpPos);
+        pre = start;
+    }
+    
 }
 
 //--------------------------------------------------------------
@@ -112,22 +129,8 @@ void ofxCameraMove::cutNow(int cameraNumber){
     cam->setGlobalPosition(target[cameraNumber]->getGlobalPosition());
     }
     
-}
-//--------------------------------------------------------------
-void ofxCameraMove::update(){
-    Tweener.update();
-    if(start != pre){
-    float tweenvalue = ofMap (start,0,1,0.,1.,true);
-    ofQuaternion tweenedCameraQuaternion;
-    tweenedCameraQuaternion.slerp(tweenvalue, startQuat, targetQuat);
-    ofVec3f lerpPos;
-    lerpPos = startPos + ((targetPos-startPos) * tweenvalue);
-    cam->setOrientation(tweenedCameraQuaternion);
-    cam->setGlobalPosition(lerpPos);
-    pre = start;
-    }
-    
-}
+} 
+
 //--------------------------------------------------------------
 void ofxCameraMove::keyPressed(ofKeyEventArgs &args) {
 
@@ -215,10 +218,25 @@ void ofxCameraMove::setTweenType(int _tweenType){
     
     
 }
+void ofxCameraMove::enableSave(){
+    if(!active){
+    ofAddListener(ofEvents().keyPressed, this, &ofxCameraMove::keyPressed);
+        active = false;
+    }
+    
+}
+
+void ofxCameraMove::disableSave(){
+        if(!active){
+       ofRemoveListener(ofEvents().keyPressed, this, &ofxCameraMove::keyPressed);
+            active = true;
+        }
+}
+
 
 //--------------------------------------------------------------
 ofxCameraMove::~ofxCameraMove(){
-    ofRemoveListener(ofEvents().keyPressed, this, &ofxCameraMove::keyPressed);
+    disableSave();
 }
 
 
