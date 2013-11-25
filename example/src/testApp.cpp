@@ -4,8 +4,9 @@
 void testApp::setup(){
 
     
-    saveCam.setup(&cam);
-
+    saveCam.setup(&cam,"xml"); // add you ofeasycam and the folder where the xmls are
+    //saveCam.enableSave(); // by defaul the listion is on you can actival with enableSave;
+    //saveCam.disableSave(); // or disable key save wtih this
 }
 
 //--------------------------------------------------------------
@@ -20,7 +21,7 @@ void testApp::draw(){
     ofRect(20, 20, 20, 20);
     cam.end();
     
-    ofDrawBitmapString("press x,c,v to tween between cameras\npress 1,2,3 to save cam positon to xml\n you need xml folder\n", 300,300);
+    ofDrawBitmapString("press x,c,v to tween between cameras\npress b to cut to camera \npress 1,2,3 to save cam positon to xml\n you need xml folder\n", 300,300);
 }
 
 //--------------------------------------------------------------
@@ -29,13 +30,16 @@ void testApp::keyPressed(int key){
     
     
     if(key == 'x'){
-        saveCam.tweenNow(0, 2);
+        saveCam.tweenNow(0, 2); // first int is what camera to tween to , secound int is time
     }
     if(key == 'c'){
         saveCam.tweenNow(1, 4);
     }
     if(key == 'v'){
         saveCam.tweenNow(2, 5);
+    }
+    if(key == 'b'){
+        saveCam.cutNow((int)ofRandom(2));
     }
     
     
