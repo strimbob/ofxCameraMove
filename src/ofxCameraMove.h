@@ -12,7 +12,7 @@
 #include "ofxXmlSettings.h"
 #include "ofxTweener.h"
 
-#define numberSaveFiles 3 // this is problem want to make is so a can set the array in code can you help!!???
+#define numberSaveFiles 6 // this is problem want to make is so a can set the array in code can you help!!???
 
 
 
@@ -30,10 +30,14 @@ public:
     void keyPressed(ofKeyEventArgs &args);
     void setTweenType(int _tweenType); // not good how to change???
     vector<string> loadString(string path);
+    void disableSave();
+    void enableSave();
+    
     float start;
     float end;
     float pre;
 private:
+    bool active;
     int tweenType;
     ofEasyCam camArray[numberSaveFiles];
     vector<ofEasyCam *> target;
